@@ -17,6 +17,8 @@ def add_project(uname):
 	add_pro_win.geometry("500x500+500+200")
 	add_pro_win.title("ADD NEW PROJECT")
 
+
+
 	def add_pro_btn():
 		try:
 
@@ -54,8 +56,8 @@ def add_project(uname):
 				try:
 					cursor.execute(savequery,(p_id.get(),p_name.get(),p_front.get(),p_back.get(),p_link.get(),p_desc.get(),uname))
 					db.commit()
-					messagebox.showinfo("success","project details added")
-
+					
+					messagebox.showinfo("success","project added")
 				except Exception as e:
 					db.rollback()
 					messagebox.showerror("error",e)
@@ -108,16 +110,20 @@ def view_projects(uname):
 	my_conn = my_connect.cursor()	
 
 	def display():
-		my_conn.execute("SELECT * FROM project ")
+		my_conn.execute("select project.*,mark.marks from project join mark on project.p_id=mark.p_id where project.s_id=%s",(uname,))
 		print(uname)
 		global pi
 		pi=0 
-		for project in my_conn: 
-			for j in range(len(project)):
-				e = Label(tvp_win,width=10, text=project[j],
+
+		for count in my_conn: 
+			print(count)
+			for j in range(len(count)):
+				e = Label(tvp_win,width=10, text=count[j],
 				relief='ridge', anchor="w")  
 				e.grid(row=pi, column=j) 
+				print("outside")
 			pi=pi+1
+		print("done")
 			
 		
 	display()
@@ -331,7 +337,7 @@ def t_view_stu():
 	my_conn = my_connect.cursor()	
 
 	def display():
-		my_conn.execute("SELECT * FROM student limit 0,10")
+		my_conn.execute("SELECT * FROM student order by s_id limit 0,10 ")
 		global i
 		i=0 
 		for student in my_conn: 
@@ -438,7 +444,8 @@ def t_view_pro(t_id):
 	my_conn = my_connect.cursor()	
 
 	def display():
-		my_conn.execute("SELECT * FROM project limit 0,10")
+		query=("select * from project order by p_id limit 0,10")
+		my_conn.execute(query)
 		global p
 		p=0 
 		for project in my_conn: 
@@ -446,7 +453,7 @@ def t_view_pro(t_id):
 				e = Label(tvp_win,width=10, text=project[j],
 				relief='ridge', anchor="w")  
 				e.grid(row=p, column=j) 
-			e = tk.Button(tvp_win,width=5, text='Edit',relief='ridge',
+			e = tk.Button(tvp_win,width=15, text='Edit',relief='ridge',
 				 anchor="w",command=lambda k=project[0]:edit_data(k))  
 			e.grid(row=p, column=11)  
 			eval=tk.Button(tvp_win,width=8,text="Evaluate",relief='ridge',anchor="w",command=lambda k=project[0]:evaluate(k))
@@ -468,9 +475,7 @@ def t_view_pro(t_id):
 		#initializing vars
 		e1_str_p_id.set(id) 
 		e2_str_t_id.set(t_id)
-		e3_str_marks.set("Not Evaluted")
-	
-
+		e3_str_marks.set("")
 		
 		#taking values
 		e1=tk.Entry(tvp_win,textvariable=e1_str_p_id,width=10,state='disabled')
@@ -487,9 +492,11 @@ def t_view_pro(t_id):
 		b0.grid(row=p, column=6) 
 
 		def update(): 
-			data=(e3_str_marks.get(),)
-			my_conn.execute("UPDATE mark SET marks=%s",data)
+			data=(id,t_id,e3_str_marks.get())
+			my_conn.execute("insert into mark(p_id,t_id,marks) values(%s,%s,%s)",(data))
+			my_connect.commit()
 			print("succesfully updated")
+			print(data)
 			for w in tvp_win.grid_slaves(p):
 				w.grid_forget()
 			display()  
