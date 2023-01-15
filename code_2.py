@@ -465,6 +465,8 @@ def t_view_pro(t_id):
 	def evaluate(id):
 		global p
 		print(id)
+
+		
 		
 		#declaring vars
 		e1_str_p_id=tk.StringVar(tvp_win)
@@ -487,16 +489,22 @@ def t_view_pro(t_id):
 		e3=tk.Entry(tvp_win,textvariable=e3_str_marks,width=10)
 		e3.grid(row=p,column=4)
 
+		
 		b0 = tk.Button(tvp_win,text='Update',command=lambda: update(),
 				relief='ridge', anchor="w",width=5)  
 		b0.grid(row=p, column=6) 
-
+		
 		def update(): 
 			data=(id,t_id,e3_str_marks.get())
-			my_conn.execute("insert into mark(p_id,t_id,marks) values(%s,%s,%s)",(data))
-			my_connect.commit()
-			print("succesfully updated")
-			print(data)
+
+			try:
+				my_conn.execute("insert into mark(p_id,t_id,marks) values(%s,%s,%s)",(data))
+				my_connect.commit()
+				print("succesfully updated")
+				print(data)
+			except :
+				messagebox.showerror("Invalid Request","Already Evaluated")
+
 			for w in tvp_win.grid_slaves(p):
 				w.grid_forget()
 			display()  
