@@ -6,7 +6,7 @@ from tkinter import *
 
 root = tk.Tk()
 root.geometry("300x200+500+200")
-root.title("who are you?")
+root.title("LOG IN AS :-")
 
 
 
@@ -14,7 +14,7 @@ root.title("who are you?")
 def add_project(uname):
 
 	add_pro_win=Toplevel()
-	add_pro_win.geometry("500x500+500+200")
+	add_pro_win.geometry("500x300+500+200")
 	add_pro_win.title("ADD NEW PROJECT")
 
 
@@ -97,12 +97,12 @@ def add_project(uname):
 
 
 
-	submitbtn = tk.Button(add_pro_win, text ="SAVE",bg ='green', command = add_pro_btn,width=15)
-	submitbtn.grid(row=7,column=0)
+	submitbtn = tk.Button(add_pro_win, text ="SAVE",bg ='indigo', command = add_pro_btn,width=15,foreground='white')
+	submitbtn.grid(row=7,column=0,pady=10)
 
 def view_projects(uname):
 	tvp_win=Toplevel()
-	tvp_win.geometry("950x500+200+200")
+	tvp_win.geometry("550x300+200+200")
 	tvp_win.title("My Projects")
 
 	global p
@@ -110,10 +110,25 @@ def view_projects(uname):
 	my_conn = my_connect.cursor()	
 
 	def display():
-		my_conn.execute("select project.*,mark.marks from project join mark on project.p_id=mark.p_id where project.s_id=%s",(uname,))
+		my_conn.execute("select project.p_id,project.p_name,project.p_front,project.p_back,project.p_link,project.p_desc,mark.marks from project join mark on project.p_id=mark.p_id where project.s_id=%s",(uname,))
 		print(uname)
 		global pi
-		pi=0 
+		heading1=Label(tvp_win,width=10,text='Project-ID',bg='indigo',foreground='white',relief=RIDGE)
+		heading2=Label(tvp_win,width=10,text='pname',bg='indigo',foreground='white',relief=RIDGE)
+		heading3=Label(tvp_win,width=10,text='FrontEnd',bg='indigo',foreground='white',relief=RIDGE)
+		heading4=Label(tvp_win,width=10,text='BackEnd',bg='indigo',foreground='white',relief=RIDGE)
+		heading5=Label(tvp_win,width=10,text='Link',bg='indigo',foreground='white',relief=RIDGE)
+		heading6=Label(tvp_win,width=10,text='Description',bg='indigo',foreground='white',relief=RIDGE)
+		heading7=Label(tvp_win,width=10,text='Marks',bg='indigo',foreground='white',relief=RIDGE)
+		heading1.grid(row=0,column=0)
+		heading2.grid(row=0,column=1)
+		heading3.grid(row=0,column=2)
+		heading4.grid(row=0,column=3)
+		heading5.grid(row=0,column=4)
+		heading6.grid(row=0,column=5)
+		heading7.grid(row=0,column=6)
+
+		pi=1
 
 		for count in my_conn: 
 			print(count)
@@ -130,20 +145,23 @@ def view_projects(uname):
 	
 
 
-def s_profile(uname):
-	messagebox.showinfo("login succesful","welcome "+uname)
+def s_profile(uname,name):
+	messagebox.showinfo("login succesful","welcome!!!    "+name)
 	prof_win=Toplevel()
 	prof_win.geometry("300x200+500+200")
-	prof_win.title("Welcome "+uname)
+	prof_win.title("HELLO!!!! "+name)
 
 
 	view_project_btn = tk.Button(prof_win, text ="ADD NEW PROJECT",
-					bg ='green', command =lambda:add_project(uname))
-	view_project_btn.place(x = 50, y = 50, width = 200,height=50)
+					bg ='indigo', command =lambda:add_project(uname),foreground='white')
+	view_project_btn.place(x = 50, y = 25, width = 200,height=50)
+
+	lb_or=Label(prof_win,text="------OR------",width=20,height=20)
+	lb_or.place(x=50,y=70,width=200,height=45)
 
 	add_project_btn = tk.Button(prof_win, text ="VIEW PROJECTS",
-					bg ='green', command =lambda:view_projects(uname))
-	add_project_btn.place(x = 50, y = 100, width = 200,height=50)
+					bg ='indigo', command =lambda:view_projects(uname),foreground='white')
+	add_project_btn.place(x = 50, y = 120, width = 200,height=50)
 
 
 
@@ -151,7 +169,7 @@ def sign_up():
 
 	create_window=Toplevel()
 	create_window.geometry("700x700+300+50")
-	create_window.title("enter details")
+	create_window.title("Enter Your Details")
 
 	DataFrame = Frame(create_window,bd=20,padx=20,relief=RIDGE)
 	DataFrame.place(x=20,y=30,width=650,height=550)
@@ -249,6 +267,7 @@ def sign_up():
 	RBttn.grid(row=4,column=1)
 	RBttn2 = Radiobutton(DataFrame, text = "F", variable = s_gender,value = "F")
 	RBttn2.grid(row=4,column=2)
+	s_gender.set("M")
 
 	lb_s_phno = tk.Label(DataFrame, text ="Phone Number -",padx=20,pady=10 )
 	lb_s_phno.grid(row=5,column=0)
@@ -269,6 +288,7 @@ def sign_up():
 	RBttn2.grid(row=8,column=1)
 	RBttn2 = Radiobutton(DataFrame, text = "C", variable = s_sec,value = "C")
 	RBttn2.grid(row=8,column=2)
+	s_sec.set("A")
 
 	lb_s_sem = tk.Label(DataFrame, text ="Semester-",padx=20,pady=10)
 	lb_s_sem.grid(row=9,column=0)
@@ -279,6 +299,7 @@ def sign_up():
 	RBttn2.grid(row=10,column=1)
 	RBttn2 = Radiobutton(DataFrame, text = "7th", variable = s_sem,value = 7)
 	RBttn2.grid(row=10,column=2)
+	s_sem.set("5")
 
 	lb_s_pass = tk.Label(DataFrame, text ="password-",padx=20,pady=10 )
 	lb_s_pass.grid(row=11,column=0)
@@ -287,7 +308,7 @@ def sign_up():
 
 	
 
-	submitbtn = tk.Button(buttondataframe, text ="SAVE",bg ='green', command = save,width=15)
+	submitbtn = tk.Button(buttondataframe, text ="SAVE",bg ='indigo', command = save,width=15,foreground='white')
 	submitbtn.grid(row=0,column=0)
 
 
@@ -314,13 +335,15 @@ def logintodb(Username,password):
 			query = "SELECT * FROM student WHERE s_id = '"+uname+"' and s_pas= '"+pas+"';"  
 			print(query) 
 			cursor.execute(query) 
-			print(cursor.fetchall()) 
+			s=cursor.fetchall()
+			name=s[0][1]
+			print(name)
 			rowcount = cursor.rowcount  
 			print(rowcount)
 
 
 			if rowcount == 1:  
-				s_profile(uname)  
+				s_profile(uname,name)  
 
 			else :
 				messagebox.showinfo('Information', "Login failed,Invalid Username or Password.Try again!!!")  
@@ -339,7 +362,31 @@ def t_view_stu():
 	def display():
 		my_conn.execute("SELECT * FROM student order by s_id limit 0,10 ")
 		global i
-		i=0 
+
+
+		heading1=Label(tvs_win,width=10,text='Student-ID',bg='indigo',foreground='white',relief=RIDGE)
+		heading2=Label(tvs_win,width=10,text='First Name',bg='indigo',foreground='white',relief=RIDGE)
+		heading3=Label(tvs_win,width=10,text='Last Name',bg='indigo',foreground='white',relief=RIDGE)
+		heading4=Label(tvs_win,width=10,text='phone',bg='indigo',foreground='white',relief=RIDGE)
+		heading5=Label(tvs_win,width=10,text='City',bg='indigo',foreground='white',relief=RIDGE)
+		heading6=Label(tvs_win,width=10,text='Semester',bg='indigo',foreground='white',relief=RIDGE)
+		heading7=Label(tvs_win,width=10,text='DOB',bg='indigo',foreground='white',relief=RIDGE)
+		heading8=Label(tvs_win,width=10,text='Section',bg='indigo',foreground='white',relief=RIDGE)
+		heading9=Label(tvs_win,width=10,text='Gender',bg='indigo',foreground='white',relief=RIDGE)
+		heading10=Label(tvs_win,width=10,text='Password',bg='indigo',foreground='white',relief=RIDGE)
+		heading1.grid(row=0,column=0)
+		heading2.grid(row=0,column=1)
+		heading3.grid(row=0,column=2)
+		heading4.grid(row=0,column=3)
+		heading5.grid(row=0,column=4)
+		heading6.grid(row=0,column=5)
+		heading7.grid(row=0,column=6)
+		heading8.grid(row=0,column=7)
+		heading9.grid(row=0,column=8)
+		heading10.grid(row=0,column=9)
+
+
+		i=1
 		for student in my_conn: 
 			for j in range(len(student)):
 				e = Label(tvs_win,width=10, text=student[j],
@@ -447,7 +494,23 @@ def t_view_pro(t_id):
 		query=("select * from project order by p_id limit 0,10")
 		my_conn.execute(query)
 		global p
-		p=0 
+
+		heading1=Label(tvp_win,width=10,text='Project-ID',bg='indigo',foreground='white',relief=RIDGE)
+		heading2=Label(tvp_win,width=10,text='pname',bg='indigo',foreground='white',relief=RIDGE)
+		heading3=Label(tvp_win,width=10,text='FrontEnd',bg='indigo',foreground='white',relief=RIDGE)
+		heading4=Label(tvp_win,width=10,text='BackEnd',bg='indigo',foreground='white',relief=RIDGE)
+		heading5=Label(tvp_win,width=10,text='Link',bg='indigo',foreground='white',relief=RIDGE)
+		heading6=Label(tvp_win,width=10,text='Description',bg='indigo',foreground='white',relief=RIDGE)
+		heading7=Label(tvp_win,width=10,text='StudentID',bg='indigo',foreground='white',relief=RIDGE)
+		heading1.grid(row=0,column=0)
+		heading2.grid(row=0,column=1)
+		heading3.grid(row=0,column=2)
+		heading4.grid(row=0,column=3)
+		heading5.grid(row=0,column=4)
+		heading6.grid(row=0,column=5)
+		heading7.grid(row=0,column=6)
+
+		p=1
 		for project in my_conn: 
 			for j in range(len(project)):
 				e = Label(tvp_win,width=10, text=project[j],
@@ -616,47 +679,51 @@ def create_teacher():
 
 
 	c_t_win=Toplevel()
-	c_t_win.geometry("300x200+500+200")
+	c_t_win.geometry("400x200+500+200")
 	c_t_win.title("Enter Teacher Details")
 
 	lb_t_id=Label(c_t_win,text="enter ID")
-	lb_t_id.grid(row=0,column=0)
+	lb_t_id.grid(row=0,column=0,padx=5,pady=5)
 	t_id=Entry(c_t_win,width=35)
-	t_id.grid(row=0,column=1)
+	t_id.grid(row=0,column=1,padx=5,pady=5)
 
 	lb_t_name=Label(c_t_win,text="enter name")
-	lb_t_name.grid(row=1,column=0)
+	lb_t_name.grid(row=1,column=0,padx=5,pady=5)
 	t_name=Entry(c_t_win,width=35)
-	t_name.grid(row=1,column=1)
+	t_name.grid(row=1,column=1,padx=5,pady=5)
 
 	lb_t_sub=Label(c_t_win,text="enter subject")
-	lb_t_sub.grid(row=2,column=0)
+	lb_t_sub.grid(row=2,column=0,padx=5,pady=5)
 	t_sub=Entry(c_t_win,width=35)
-	t_sub.grid(row=2,column=1)
+	t_sub.grid(row=2,column=1,padx=5,pady=5)
 
 	lb_t_pass=Label(c_t_win,text="enter password")
-	lb_t_pass.grid(row=3,column=0)
+	lb_t_pass.grid(row=3,column=0,padx=5,pady=5)
 	t_pass=Entry(c_t_win,width=35,show='*')
-	t_pass.grid(row=3,column=1)
+	t_pass.grid(row=3,column=1,padx=5,pady=5)
 
 	t_sub_btn = tk.Button(c_t_win, text ="create profile",
-					bg ='green', command =t_save)
-	t_sub_btn.grid(row=4,column=0)
+					bg ='indigo',foreground='white', command =t_save)
+	t_sub_btn.grid(row=4,column=0,padx=5,pady=5)
 
 
 	
-def t_profile(uname):
+def t_profile(uname,name):
+	messagebox.showinfo("login succesful","welcome!!!   "+name)
 	t_prof_win=Toplevel()
 	t_prof_win.geometry("300x200+500+200")
-	t_prof_win.title("wecome "+uname)
+	t_prof_win.title("HELLO !!!  "+name)
 
 	view_students_btn = tk.Button(t_prof_win, text ="VIEW STUDENTS",
-					bg ='green', command =t_view_stu)
-	view_students_btn.place(x = 50, y = 50, width = 200,height=50)
+					bg ='indigo', command =t_view_stu,foreground='white')
+	view_students_btn.place(x = 50, y = 25, width = 200,height=50)
+
+	lb_or3=Label(t_prof_win,text="------OR------",width=20,height=20)
+	lb_or3.place(x=50,y=70,width=200,height=45)
 
 	view_projects_btn = tk.Button(t_prof_win, text ="VIEW PROJECTS",
-					bg ='green', command =lambda:t_view_pro(uname))
-	view_projects_btn.place(x = 50, y = 100, width = 200,height=50)
+					bg ='indigo', command =lambda:t_view_pro(uname),foreground='white')
+	view_projects_btn.place(x = 50, y = 120, width = 200,height=50)
 
 
 
@@ -680,13 +747,15 @@ def tlogintodb(Username,password):
 			query = "SELECT * FROM teacher WHERE t_id = '"+uname+"' and t_pass= '"+pas+"';"  
 			print(query) 
 			cursor.execute(query) 
-			print(cursor.fetchall()) 
+			t=cursor.fetchall()
+			name=t[0][1]
+			print(name) 
 			rowcount = cursor.rowcount  
 			print(rowcount)
 
 
 			if rowcount == 1:  
-				t_profile(uname)  
+				t_profile(uname,name)  
 
 			else :
 				messagebox.showinfo('Information', "Login failed,Invalid Username or Password.Try again!!!")  
@@ -703,25 +772,25 @@ def t_login():
 	t_window.title("Teacher Login Page")
 	
 
-	lblfrstrow = tk.Label(t_window, text ="Username ", )
+	lblfrstrow = tk.Label(t_window,width=20, text ="UserID ",bg='indigo',foreground='white' )
 	lblfrstrow.grid(row=0,column=0,pady=5,padx=25)
 
 	Username = tk.Entry(t_window, width = 35)
 	Username.grid(row=1,column=0,pady=5,padx=25)
 	Username.focus_set()
 
-	lblsecrow = tk.Label(t_window, text ="Password ")
+	lblsecrow = tk.Label(t_window,width=20, text ="Password ",bg='indigo',foreground='white')
 	lblsecrow.grid(row=2,column=0,pady=5,padx=25)
 
 	password = tk.Entry(t_window, width = 35,show='*')
 	password.grid(row=3,column=0,pady=5,padx=25)
 
-	submitbtn = tk.Button(t_window, text ="Login",
-					bg ='blue', command = lambda:tlogintodb(Username,password))
+	submitbtn = tk.Button(t_window, text ="Login",width=10,
+					bg ='indigo', foreground='white',command = lambda:tlogintodb(Username,password))
 	submitbtn.grid(row=4,column=0,pady=5,padx=25)
 
-	createbtn = tk.Button(t_window, text ="Create",
-					bg ='blue', command = create_teacher)
+	createbtn = tk.Button(t_window, text ="Create",width=10,
+					bg ='indigo', foreground='white',command = create_teacher)
 	createbtn.grid(row=5,column=0,pady=5,padx=25)
 
 	t_window.mainloop()
@@ -733,27 +802,27 @@ def s_login():
 	s_window.title("Student Login Page")
 	
 
-	lblfrstrow = tk.Label(s_window, text ="Username -", )
-	lblfrstrow.place(x = 50, y = 20)
+	lblfrstrow = tk.Label(s_window,width=20,bg='indigo',foreground='white' ,text ="UserID ", relief=RIDGE)
+	lblfrstrow.grid(row=0,column=0,padx=25,pady=5)
 
-	Username = tk.Entry(s_window, width = 35)
-	Username.place(x = 150, y = 20, width = 100)
+	Username = tk.Entry(s_window, width = 35,relief=RIDGE)
+	Username.grid(row=1,column=0,padx=25,pady=5)
 	Username.focus_set()
 
-	lblsecrow = tk.Label(s_window, text ="Password -")
-	lblsecrow.place(x = 50, y = 50)
+	lblsecrow = tk.Label(s_window,width=20,bg='indigo',foreground='white', text ="Password ",relief=RIDGE)
+	lblsecrow.grid(row=2,column=0,padx=25,pady=5)
 
-	password = tk.Entry(s_window, width = 35,show='*')
-	password.place(x = 150, y = 50, width = 100)
+	password = tk.Entry(s_window, width = 35,show='*',relief=RIDGE)
+	password.grid(row=3,column=0,padx=25,pady=5)
 
-	submitbtn = tk.Button(s_window, text ="Login",
-					bg ='blue', command = lambda:logintodb(Username,password))
-	submitbtn.place(x = 150, y = 135, width = 55)
+	submitbtn = tk.Button(s_window, text ="Login",width=10,foreground='white',
+					bg ='indigo',relief=RIDGE ,command = lambda:logintodb(Username,password))
+	submitbtn.grid(row=4,column=0,padx=25,pady=5)
+
 
 	createbtn = tk.Button(s_window, text ="Create",
-					bg ='blue', command = sign_up)
-	createbtn.place(x = 50, y = 135, width = 55)
-
+					bg ='indigo', command = sign_up,relief=RIDGE,width=10,foreground='white')
+	createbtn.grid(row=5,column=0,padx=25,pady=5)
 	s_window.mainloop()
 
 
@@ -776,16 +845,19 @@ def check():
 	check_entry.grid(row=1,column=0,padx=25,pady=10)
 	check_entry.focus_set()
 
-	check_btn=tk.Button(check_win,text="check",bg='blue',command=check_fn)
+	check_btn=tk.Button(check_win,text="check",bg='indigo',width=10,foreground='white',command=check_fn)
 	check_btn.grid(row=2,column=0,padx=55,pady=10)
 	
 
 studentbtn = tk.Button(root, text ="STUDENT",
-					bg ='green', command =s_login)
-studentbtn.place(x = 50, y = 50, width = 200,height=50)
+					bg ='indigo', command =s_login,foreground='white')
+studentbtn.place(x = 50, y = 25, width = 200,height=50)
+
+lb_or=Label(text="------OR------",width=20,height=20)
+lb_or.place(x=50,y=70,width=200,height=45)
 
 teacherbtn = tk.Button(root, text ="TEACHER",
-					bg ='green', command =check)
-teacherbtn.place(x = 50, y = 100, width = 200,height=50)
+					bg ='indigo', command =check,foreground='white')
+teacherbtn.place(x = 50, y = 120, width = 200,height=50)
 
 root.mainloop()
