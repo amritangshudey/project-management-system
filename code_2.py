@@ -22,27 +22,27 @@ def add_project(uname):
 	def add_pro_btn():
 		try:
 
-			if p_id == "": 
+			if 	p_id.get()== "": 
 				messagebox.showinfo('Information', "Please Enter ProjectID")  
 				p_id.focus_set()  
 				return
-			elif p_name=="":
+			elif p_name.get()=="":
 				messagebox.showinfo('Information', "Please Enter ProjectName")  
 				p_name.focus_set()  
 				return
-			elif p_back=="":
+			elif p_back.get()=="":
 				messagebox.showinfo('Information', "Please Enter BackendDetails")  
 				p_back.focus_set()  
 				return
-			elif p_front=="":
+			elif p_front.get()=="":
 				messagebox.showinfo('Information', "Please Enter FrontEndDetails")  
 				p_front.focus_set()  
 				return
-			elif p_desc=="":
+			elif p_desc.get()=="":
 				messagebox.showinfo('Information', "Please Enter ProjectDescription")  
 				p_desc.focus_set()  
 				return
-			elif p_link=="":
+			elif p_link.get()=="":
 				messagebox.showinfo('Information', "Please Enter ProjectLink")  
 				p_link.focus_set()  
 				return
@@ -176,7 +176,7 @@ def sign_up():
 
 	buttondataframe=Frame(create_window,bd=20,relief=RIDGE)
 	buttondataframe.place(x=170,y=600,width=160,height=70)
-
+	
 	
 
 		
@@ -184,45 +184,46 @@ def sign_up():
 	def save():
 		try:
 
-			if s_usn == "": 
+			if s_usn.get() =="": 
 				messagebox.showinfo('Information', "Please Enter Username")  
 				s_usn.focus_set()  
 				return
-			elif s_fname=="":
-				messagebox.showinfo('Information', "Please Enter Username")  
+			elif s_fname.get()=="":
+				messagebox.showinfo('Information', "Please Enter first name")  
 				s_fname.focus_set()  
 				return
-			elif s_lname=="":
-				messagebox.showinfo('Information', "Please Enter Username")  
-				s_fname.focus_set()  
+			elif s_lname.get()=="":
+				messagebox.showinfo('Information', "Please Enter last name")  
+				s_lname.focus_set()  
 				return
-			elif s_dob=="":
-				messagebox.showinfo('Information', "Please Enter Username")  
-				s_fname.focus_set()  
+			elif s_dob.get()=="":
+				messagebox.showinfo('Information', "Please Enter DOB")  
+				s_dob.focus_set()  
 				return
-			elif s_address=="":
-				messagebox.showinfo('Information', "Please Enter Username")  
-				s_fname.focus_set()  
+			elif s_address.get()=="":
+				messagebox.showinfo('Information', "Please Enter your address")  
+				s_address.focus_set()  
 				return
-			elif s_sem=="":
-				messagebox.showinfo('Information', "Please Enter Username")  
-				s_fname.focus_set()  
+			elif s_sem.get()=="":
+				messagebox.showinfo('Information', "Please Enter Semester")  
+				s_sem.focus_set()  
 				return
-			elif s_sec=="":
-				messagebox.showinfo('Information', "Please Enter Username")  
-				s_fname.focus_set()  
+			elif s_sec.get()=="":
+				messagebox.showinfo('Information', "Please Enter Section")  
+				s_sec.focus_set()  
 				return
-			elif s_gender=="":
-				messagebox.showinfo('Information', "Please Enter Username")  
-				s_fname.focus_set()  
+			elif s_gender.get()=="":
+				messagebox.showinfo('Information', "Please Enter Gender")  
+				s_gender.focus_set()  
 				return
-			elif s_pass=="":
-				messagebox.showinfo('Information', "Please Enter Username")  
-				s_fname.focus_set()  
+			elif s_pass.get()=="":
+				messagebox.showinfo('Information', "Please Enter Password")  
+				s_pass.focus_set()  
 				return
-			elif s_phno=="":
-				messagebox.showerror('Information',"please Enter phone number")
+			elif s_phno.get()=="":
+				messagebox.showinfo('Information',"please Enter phone number")
 				s_phno.focus_set()
+				return
 			
 
 			else :
@@ -234,10 +235,11 @@ def sign_up():
 					db.commit()
 					messagebox.showinfo("success","student added")
 
-				except Exception as e:
+				except Exception:
 					db.rollback()
-					messagebox.showerror("error",e)
+					messagebox.showerror("error","invalid data!!!")
 		except:
+			print("error")
 			db.rollback()
 
 	lb_s_fname = Label(DataFrame, text ="First Name -",padx=20,pady=10)
@@ -252,7 +254,7 @@ def sign_up():
 
 	lb_s_usn = tk.Label(DataFrame, text ="USN -",padx=20,pady=10 )
 	lb_s_usn.grid(row=2,column=0)
-	s_usn = tk.Entry(DataFrame, width = 35)
+	s_usn = Entry(DataFrame, width = 35)
 	s_usn.grid(row=2,column=1)
 
 	lb_s_address = tk.Label(DataFrame, text ="Address -",padx=20,pady=10 )
@@ -347,7 +349,8 @@ def logintodb(Username,password):
 
 			else :
 				messagebox.showinfo('Information', "Login failed,Invalid Username or Password.Try again!!!")  
-	except:  
+	except Exception:
+		messagebox.showerror("error","Login failed,Invalid Username or Password.Try again!!!") 
 		db.disconnect()
 
 def t_view_stu():
@@ -645,19 +648,19 @@ def create_teacher():
 	def t_save():
 		try:
 
-			if t_id == "": 
+			if t_id.get() == "": 
 				messagebox.showinfo('Information', "Please Enter ID")  
 				t_id.focus_set()  
 				return
-			elif t_name=="":
+			elif t_name.get()=="":
 				messagebox.showinfo('Information', "Please Enter Username")  
 				t_name.focus_set()  
 				return
-			elif t_sub=="":
+			elif t_sub.get()=="":
 				messagebox.showinfo('Information', "Please Enter Subject")  
 				t_sub.focus_set()  
 				return
-			elif t_pass=="":
+			elif t_pass.get()=="":
 				messagebox.showinfo('Information', "Please Enter Password")  
 				t_pass.focus_set()  
 				return
@@ -758,8 +761,9 @@ def tlogintodb(Username,password):
 				t_profile(uname,name)  
 
 			else :
-				messagebox.showinfo('Information', "Login failed,Invalid Username or Password.Try again!!!")  
-	except:  
+				messagebox.showerror('Information', "Login failed,Invalid Username or Password.Try again!!!")  
+	except Exception as e: 
+		messagebox.showerror('Information', "Login failed,Invalid Username or Password.Try again!!!")   
 		db.disconnect()
 
 
