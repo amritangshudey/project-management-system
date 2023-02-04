@@ -1,0 +1,97 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema project_management_system_2
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema project_management_system_2
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `project_management_system_2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `project_management_system_2` ;
+
+-- -----------------------------------------------------
+-- Table `project_management_system_2`.`student`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `project_management_system_2`.`student` (
+  `s_id` VARCHAR(45) NOT NULL,
+  `fname` VARCHAR(45) NOT NULL,
+  `lname` VARCHAR(45) NOT NULL,
+  `phone` VARCHAR(20) NOT NULL,
+  `city` VARCHAR(45) NOT NULL,
+  `sem` INT NOT NULL,
+  `dob` DATE NOT NULL,
+  `sec` VARCHAR(45) NOT NULL,
+  `gender` VARCHAR(45) NOT NULL,
+  `s_pas` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`s_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `project_management_system_2`.`project`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `project_management_system_2`.`project` (
+  `p_id` VARCHAR(45) NOT NULL,
+  `p_name` VARCHAR(45) NOT NULL,
+  `p_front` VARCHAR(45) NOT NULL,
+  `p_back` VARCHAR(45) NOT NULL,
+  `p_link` VARCHAR(45) NOT NULL,
+  `p_desc` VARCHAR(45) NOT NULL,
+  `s_id` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`p_id`),
+  INDEX `fk_1_idx` (`s_id` ASC) VISIBLE,
+  CONSTRAINT `fk_1`
+    FOREIGN KEY (`s_id`)
+    REFERENCES `project_management_system_2`.`student` (`s_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `project_management_system_2`.`mark`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `project_management_system_2`.`mark` (
+  `p_id` VARCHAR(45) NOT NULL,
+  `t_id` VARCHAR(45) NULL DEFAULT NULL,
+  `marks` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`p_id`),
+  CONSTRAINT `fk_2`
+    FOREIGN KEY (`p_id`)
+    REFERENCES `project_management_system_2`.`project` (`p_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `project_management_system_2`.`teacher`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `project_management_system_2`.`teacher` (
+  `t_id` VARCHAR(45) NOT NULL,
+  `t_name` VARCHAR(45) NOT NULL,
+  `subject` VARCHAR(45) NOT NULL,
+  `t_pass` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`t_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
